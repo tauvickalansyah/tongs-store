@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Penjual - Tongs Store</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --gray: #6b7280;
+      --bg: #f9fafb;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    body {
+      display: flex;
+      background: var(--bg);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background: var(--white);
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+      transition: 0.3s;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      color: var(--primary);
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      margin: 15px 0;
+      color: var(--gray);
+      cursor: pointer;
+    }
+
+    .sidebar li:hover {
+      color: var(--primary);
+    }
+
+    .sidebar.active {
+      transform: translateX(-100%);
+      position: absolute;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .menu-btn {
+      display: none;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+    }
+
+    /* CARDS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* CHART */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        z-index: 100;
+        left: 0;
+        top: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <h2>Tongs Store</h2>
+  <ul>
+    <li>Dashboard</li>
+    <li>Produk</li>
+    <li>Transaksi</li>
+    <li>Laporan</li>
+    <li>Pengaturan</li>
+  </ul>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <span class="menu-btn" onclick="toggleSidebar()">☰</span>
+    <h3>Halo, Penjual</h3>
+    <button class="btn">Logout</button>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="grid">
+    <div class="card">
+      <h4>Total Penjualan</h4>
+      <h2>Rp 5.000.000</h2>
+    </div>
+    <div class="card">
+      <h4>Total Transaksi</h4>
+      <h2>120</h2>
+    </div>
+    <div class="card">
+      <h4>Produk Terjual</h4>
+      <h2>340</h2>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="charts">
+    <div class="card">
+      <h4>Penjualan 1 Bulan</h4>
+      <canvas id="chartMonth"></canvas>
+    </div>
+
+    <div class="card">
+      <h4>Penjualan 1 Minggu</h4>
+      <canvas id="chartWeek"></canvas>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card">
+    <h4>Transaksi Terbaru</h4>
+    <br/>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Produk</th>
+          <th>Email</th>
+          <th>Nomor HP</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DE-123456</td>
+          <td>Kopi Digital</td>
+          <td>user@mail.com</td>
+          <td>08123456789</td>
+          <td>Sukses</td>
+        </tr>
+        <tr>
+          <td>DE-123457</td>
+          <td>Keripik Digital</td>
+          <td>user2@mail.com</td>
+          <td>08123456788</td>
+          <td>Pending</td>
+        </tr>
+        <tr>
+          <td>DE-123458</td>
+          <td>Kopi Digital</td>
+          <td>user3@mail.com</td>
+          <td>08123456787</td>
+          <td>Gagal</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  // Toggle Sidebar Mobile
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("active");
+  }
+
+  // Dummy Data Chart Bulanan
+  new Chart(document.getElementById("chartMonth"), {
+    type: "line",
+    data: {
+      labels: ["M1","M2","M3","M4"],
+      datasets: [{
+        label: "Penjualan",
+        data: [1200000, 900000, 1500000, 1400000]
+      }]
+    }
+  });
+
+  // Dummy Data Chart Mingguan
+  new Chart(document.getElementById("chartWeek"), {
+    type: "bar",
+    data: {
+      labels: ["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
+      datasets: [{
+        label: "Penjualan",
+        data: [200000, 300000, 250000, 400000, 350000, 500000, 450000]
+      }]
+    }
+  });
+</script>
+
+</body>
+</html>
